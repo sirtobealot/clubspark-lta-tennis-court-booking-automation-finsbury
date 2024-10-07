@@ -1,9 +1,57 @@
 # LTA Tennis Court Booking
 
+## Install
+
+On Fedora/RHEL based OSs
+
+Assuming the repo is checked out at `/home/ben/code/benkant/clubspark-lta-tennis-court-booking-automation-finsbury`
+
+```sh
+sudo dnf install nodejs-npm cronie
+cd clubspark-lta-tennis-court-booking-automation-finsbury
+nvm use
+nvm install
+npx jest # this will test your login to the court system
+```
+
+Create the cron job
+
+```sh
+crontab -e
+```
+
+Add this line to run the script close to midnight, and it will wait until midnight to run:
+
+(again, change the directory to match the directory you cloned the repository)
+
+```
+53 23 * * * /bin/bash ~/code/benkant/clubspark-lta-tennis-court-booking-automation-finsbury/run_tests.sh >> ~/code/benkant/clubspark-lta-tennis-court-booking-automation-finsbury/cronjob.log 2>&1
+```
+
+You will need to leave your machine on, and not asleep (you may need to check your power settings).
+
+Read the last three bullet points below regarding your username/password and court IDs.
+
+1. To set the environment variables, add this to end of `~/.bashrc`:
+
+```
+export LTA_USERNAME=<lta_username>
+export LTA_PASSWORD=<lta_password>
+```
+
+2. Update your playing location to Queen's Park or something
+3. Edit `__test__/book.test.js` to change the courtIds you want to book:
+
+```js
+  const courtIds = {
+    court1Id: 'c2acbb00-af02-460d-b6db-444c2f617a80',
+    court2Id: '5fed3659-9c46-44c8-bd9d-1d0061e522d6'
+  }
+```
+
 ## Acknowledgement
 
 Thanks very much to dragomir.enachi.uk@gmail.com who solved the problem I was trying to!
-
 
 ## Did it save your time?
 
